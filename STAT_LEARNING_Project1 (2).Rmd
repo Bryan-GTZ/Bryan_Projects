@@ -1,0 +1,369 @@
+---
+title: "TEAM_PROJECT"
+author: "Bryan Gutierrez"
+date: "2025-02-19"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+
+```{r}
+# read the csv
+data <- read.csv("/Users/bryangutierrez/Downloads/mobility-all.csv", stringsAsFactors = FALSE) 
+
+
+```
+
+
+
+# Research Question 1 
+
+
+
+```{r}
+
+# I asked chatgbt how to see what variables are good to see economic mobility it recomended doing a coralation analysis 
+
+# Load necessary library
+library(tidyverse)
+
+# Select only numeric variables
+numeric_data <- select(data, where(is.numeric))
+
+# Compute correlation with Mobility
+cor_results <- cor(numeric_data, use = "complete.obs")["Mobility",]
+
+# Sort correlations in descending order
+cor_results <- sort(cor_results, decreasing = TRUE)
+
+# see top correlated variables
+cor_results
+```
+
+
+
+
+
+
+```{r}
+library(tidyverse)
+library(reshape2)
+
+# I did this chart ecause i feel like it offers another view and we can see multicolinarity paterns were red is grouoped up
+
+# Select numeric columns
+numeric_data <- select(data, where(is.numeric))
+
+# Calculate correlation matrix
+cor_matrix <- cor(numeric_data, use = "complete.obs")
+
+# Melt the correlation matrix
+melted_cor <- melt(cor_matrix)
+
+# Plot the heatmap with improved formatting
+ggplot(data = melted_cor, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint = 0, limit = c(-1, 1), space = "Lab", 
+                       name = "Correlation") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 6),
+        axis.text.y = element_text(size = 6)) +
+  coord_fixed() +
+  labs(title = "Correlation Heatmap for Economic Mobility",
+       x = NULL, y = NULL)
+
+```
+Important Positive Correlations- Middle_class (0.67) and Commute (0.63) suggest that higher middle-class representation and longer commutes may be linked to higher mobility.
+
+Important Negative Correlations- Single_mothers (-0.67) and Gini_99 (-0.64) suggest that inequality and single-parent households might limit mobility.
+
+
+
+
+```{r}
+
+#Regressional Model Multivariate 
+numeric_columns <- sapply(data, is.numeric)
+data_numeric <- data[,numeric_columns]
+
+full_model <- lm(Mobility ~ ., 
+                 data = data_numeric)
+
+summary(full_model)
+
+
+
+```
+
+
+
+The variables that stood out to use as significant predictors for economic mobility.
+
+Positively- Commute(p= 0.0049), Middle_class(p = 0.0393), Progressivity(p = 3.78e-07), Religious(p=2.81e-07)
+
+Negatively-Black (p = .0003), Seg_racial (p = .0051), HS_dropout(0.0237), Manufacturing(p=4.52e-11), Violent_crime(p = .0372)
+
+
+
+
+```{r}
+# important variables that are imoortant with coralations and the regression 
+
+refined_model1 <- lm(Mobility ~ Middle_class + Commute + Single_mothers + 
+                    Seg_racial + Local_tax_rate + Religious, data = data)
+
+summary(refined_model1)
+
+```
+```{r}
+# Plotting residual diagnostics to check the models details 
+par(mfrow=c(2,2))  # 2x2 grid
+plot(refined_model1)  
+
+```
+
+
+```{r include=FALSE}
+# Select only numeric columns
+numeric_columns <- sapply(data, is.numeric)
+data_numeric <- data[, numeric_columns]
+
+# Remove 'Mobility' from predictor list
+predictors <- setdiff(names(data_numeric), "Mobility")
+
+# Initialize an empty list to store results
+results <- list()
+
+# Loop through each predictor
+for (var in predictors) {
+  # Run bivariate regression
+  formula <- as.formula(paste("Mobility ~", var))
+  model <- lm(formula, data = data_numeric)
+  
+  # Store summary in results list
+  results[[var]] <- summary(model)
+}
+
+# Display results
+results
+
+```
+
+
+
+
+
+```{r}
+
+
+# Create an empty data frame to store results
+bivariate_results <- data.frame(Variable = character(),
+                                Estimate = numeric(),
+                                P_Value = numeric(),
+                                R_Squared = numeric(),
+                                stringsAsFactors = FALSE)
+
+# Loop through each predictor for bivariate regression
+for (var in predictors) {
+  formula <- as.formula(paste("Mobility ~", var))
+  model <- lm(formula, data = data_numeric)
+  model_summary <- summary(model)
+  
+  # Append results to the data frame
+  bivariate_results <- rbind(bivariate_results, data.frame(
+    Variable = var,
+    Estimate = coef(model_summary)[2, "Estimate"],
+    P_Value = coef(model_summary)[2, "Pr(>|t|)"],
+    R_Squared = model_summary$r.squared
+  ))
+}
+
+# Display results as a formatted table
+library(knitr)
+kable(bivariate_results, caption = "Bivariate Regression Results")
+
+
+
+```
+
+
+
+
+# Research Question 2
+
+## Variable selection process
+
+To investigate the extent to which measures of better education predict higher levels of economic mobility, I chose variables revolving around performance indicators and resource factors in regards to education.
+
+**Educational Performance Indicators:** Test_scores, HS_dropout, Graduation **School Resource Factors:** School_spending, Student_teacher_ratio
+
+
+```{r}
+model <- lm(Mobility ~ Test_scores + HS_dropout +
+              Graduation + School_spending +
+              Student_teacher_ratio, data = data)
+```
+
+
+
+
+
+```{r}
+# Cleaning up model by getting rid of outliers
+cooksd <- cooks.distance(model)
+influential_points <- which(cooksd > (4/length(cooksd)))
+data_clean <- data[-influential_points, ]
+model_clean <- lm(Mobility ~ Test_scores + HS_dropout + Graduation + 
+                  School_spending + Student_teacher_ratio, data = data_clean)
+summary(model_clean)
+```
+
+## Variable Interpretation
+
+**Test_scores (0.0025, p \< 0.001):** Higher test scores are positively associated with greater economic mobility. **HS_dropout (-0.5690, p \< 0.001):** Higher high school dropout rates significantly decrease economic mobility. **Graduation (-0.0347, p = 0.0084):** Higher graduation rates negatively correlate with mobility, suggesting that other factors may be influencing this relationship. **School_spending (0.0025, p = 0.1506):** While increased school spending appears to have a positive effect, it is not statistically significant at the 5% level. **Student_teacher_ratio (-0.0010, p = 0.2969):** The student-to-teacher ratio does not significantly impact economic mobility,
+
+## Model Diagnostics and Selection
+
+```{r}
+# Model without Student_teacher_ratio
+reduced_model <- lm(Mobility ~ Test_scores + HS_dropout + Graduation + School_spending, data = data_clean)
+
+```
+
+**Test_scores (0.0025, p \< 0.001):** Higher test scores are positively associated with greater economic mobility. **HS_dropout (-0.5690, p \< 0.001):** Higher high school dropout rates significantly decrease economic mobility. **Graduation (-0.0347, p = 0.0084):** Higher graduation rates negatively correlate with mobility, suggesting that other factors may be influencing this relationship. **School_spending (0.0025, p = 0.1506):** While increased school spending appears to have a positive effect, it is not statistically significant at the 5% level. **Student_teacher_ratio (-0.0010, p = 0.2969):** The student-to-teacher ratio does not significantly impact economic mobility,
+
+## Model Diagnostics and Selection
+
+```{r}
+# Model without Student_teacher_ratio
+reduced_model <- lm(Mobility ~ Test_scores + HS_dropout + Graduation + School_spending, data = data_clean)
+
+```
+
+
+```{r}
+
+par(mfrow = c(1, 3))
+
+# Residuals vs. Fitted Plot
+plot(reduced_model$fitted.values, resid(reduced_model), 
+     main = "Residuals vs Fitted",
+     xlab = "Fitted Values", ylab = "Residuals")
+abline(h = 0, col = "red", lwd = 2)
+
+# Q-Q Plot
+qqnorm(resid(reduced_model))
+qqline(resid(reduced_model), col = "red", lwd = 2)
+
+# Cook's Distance
+plot(cooksd, type = "h", main = "Cook's Distance", ylab = "Cook's Distance")
+abline(h = 4/(nrow(data)), col = "red")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+# Research Question 3
+
+
+
+
+## Variable Selection Process
+
+To investigate the extent to which measures of integration across social groups predict economic mobility, I selected a set of variables that capture different dimensions of social integration and demographic characteristics. I grouped them info two groups:
+
+- **Segregation Measures** : Seg_racial, Seg_poverty, and Seg_affluence
+- **Social and Demographic Factors** : Married, Divorced, Foreign_born, and Religious
+
+
+```{r}
+ # Create Variables for Social Groups
+ social_groups <- c("Seg_racial", "Seg_poverty", "Seg_affluence", "Mobility", "Married", "Divorced", "Religious", "Foreign_born")
+ data <- data[social_groups] %>% na.omit()
+```
+
+
+
+
+
+
+
+```{r, echo=FALSE}
+model1 <- lm(Mobility ~ ., data = data)
+cooksd <- cooks.distance(model1)
+outliers <- which(cooksd > (4/length(cooksd)))
+data_clean <- data[-outliers, ]
+final_model <- lm(Mobility ~ ., data = data_clean)
+summary(final_model)
+```
+
+## Model Diagnostics
+```{r, echo=FALSE}
+par(mfrow=c(1,3))
+ plot(final_model$fitted.values, residuals(final_model),
+ main="ResidualsvsFitted",xlab="FittedValues",ylab="Residuals")
+ abline(h=0,col="red",lwd=2)
+ qqnorm(residuals(final_model))
+ qqline(residuals(final_model),col="red")
+ plot(cooksd,main="Cook'sDistance",ylab="Cook'sDistance")
+ abline(h=4/length(cooksd),col="red")
+```
+
+
+
+### **1. Residuals vs. Fitted Plot**: This plot displays the residuals against the fitted values from the regression model. This model is assumed valid because the plots are scattered randomly.  
+
+### **2. Normal Q-Q Plot**: This plot checks whether the residuals follow a normal distribution. It compares the observed residuals to a theoretical normal distribution. Becuase the points follow the red line, the residuals are normally distributed
+
+### **3. Cook's Distance Plot**: This plot identifies influential data points in the regression model. Cook’s distance measures how much a single observation affects the model. In this model, I removed all outliers seen on the plot. 
+
+
+
+# Research Question 4
+```{r}
+# read the csv
+data <- read.csv("/Users/bryangutierrez/Downloads/mobility-all.csv", stringsAsFactors = FALSE) 
+
+
+```
+# Variable Selection Process
+
+To investigate variables which can be directly affected by government policy predict economic mobility, we looked into the following:
+
+- **Tax Policy & Government Spending** (Local_tax_rate), (Progressivity)
+- **Education Policy** (HS_dropout)
+- **Public Safety & Social Programs** (Violent_crime), (Seg_racial)
+- **Community & Infrastructure** (Single_mothers), (Commute), (Religious)
+
+
+
+
+
+```{r}
+
+economic_model <- lm(Mobility ~ Local_tax_rate + Progressivity + HS_dropout + Violent_crime +
+         
+         Seg_racial + Single_mothers + Commute + Religious, data = data)
+
+summary(economic_model)
+
+```
+
+
