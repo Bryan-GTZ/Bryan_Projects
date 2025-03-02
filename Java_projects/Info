@@ -102,3 +102,41 @@ Yearly profit (52 weeks in a year).
 The profits are displayed in formatted currency values ($XX.XX).
 
 
+6.Summary of Farming Crops Simulation (Main-7.java)
+
+Overview
+This Java program simulates a farming scenario where the user (a farmer) purchases vegetable plants, grows them through a season, and sells them at a market price. The program incorporates:
+
+Selecting a vegetable to plant (Corn, Tomato, Spinach, Broccoli).
+Calculating planting costs based on the selected vegetable and quantity.
+Simulating weather conditions to determine crop loss.
+Calculating total revenue and profit/loss at the end of the season.
+Key Functionalities
+Display Market Prices
+The program displays current selling prices for Corn, Tomato, Spinach, and Broccoli.
+The program also lists the cost per plant for each crop.
+User Selection of a Crop
+The user chooses a vegetable from the list (1-4).
+The program validates the input and assigns the corresponding crop name.
+Planting & Cost Calculation
+The user inputs how many plants they want to purchase.
+The program ensures at least one plant is bought (prevents invalid inputs).
+The total cost of planting is calculated based on the crop price.
+Simulating the Growing Season (Weather Effects)
+A random number generator determines how many plants die due to weather.
+The program categorizes the season into:
+"Fantastic!" (No crop loss).
+"Mediocre season." (Moderate crop loss).
+"Horrible weather." (Significant crop loss).
+Profit/Loss Calculation
+The program calculates how many crops survived.
+It determines total revenue based on the selling price of the remaining crops.
+It computes:
+Profit (if earnings exceed costs).
+Break-even (if revenue matches costs).
+Loss (if costs exceed revenue).
+Performance Summary
+If the farmer makes a profit but loses a large percentage of crops, the program warns them about potential risks.
+The results clearly display the profit/loss amount.
+
+
