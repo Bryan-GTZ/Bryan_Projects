@@ -52,3 +52,25 @@ Inventory system for collecting and using items.
 Pokémon capturing mechanics based on item availability.
 
 
+4.Pokémon Adventure Game (pok.java)
+
+Purpose: A simple text-based Pokémon adventure game where the player explores different areas, encounters wild Pokémon, and chooses whether to catch them or run.
+Key Functionalities:
+Character Creation:
+The player enters their name and selects a starter Pokémon (Bulbasaur, Charmander, Squirtle).
+Exploration Mechanism:
+The game has 3 areas.
+Each area requires the player to take a random number of steps before encountering a Pokémon.
+Pokémon Encounters:
+Players can catch (50% chance) or run from wild Pokémon.
+Each encounter is randomized.
+Game Progression:
+Players can stay in an area or move to the next.
+If they encounter 5 Pokémon in one area, they are forced to move to the next.
+Game Completion:
+After exploring all three areas, the game ends and displays the total number of Pokémon caught.
+Notable Features:
+Uses randomized step count & Pokémon capture rate.
+Loop-based decision-making ensures valid inputs (1 or 2).
+Tracks individual area statistics and overall game statistics.
+
