@@ -1,6 +1,6 @@
 //---------------------------------------------------
 // Purpose: Implementation of Menu class
-// Author:	Dr. Streeter
+// Author: Bryan Gutierrez 
 // Date:	Spring 2024
 //---------------------------------------------------
 import java.util.Scanner;
