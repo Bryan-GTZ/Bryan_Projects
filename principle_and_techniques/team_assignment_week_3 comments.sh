@@ -2,7 +2,7 @@
 
 # We defined the directory where the GPX files are located, the backup where the original files are stored, 
 # and the directory that holds the organized activity types
-SOURCE_DIR="/Users/natekingsbury/Desktop/Strava"
+SOURCE_DIR="/Users/BryanGutierrez/Desktop/Strava"
 BACKUP_DIR="$SOURCE_DIR/backup"
 ACTIVITY_DIR="$SOURCE_DIR/activities"
 SUMMARY_FILE="$SOURCE_DIR/summary.txt"
