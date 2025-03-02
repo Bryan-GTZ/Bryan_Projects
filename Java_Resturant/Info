@@ -1,0 +1,2 @@
+This Java program simulates a restaurant menu system that allows users to browse, order, and calculate the total cost of their meal, including tax. 
+The program features a Food class and three subclasses: Appetizer, MainCourse, and Dessert, each with additional attributes such as portions, calories, and dietary information.
