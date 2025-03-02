@@ -74,3 +74,31 @@ Uses randomized step count & Pokémon capture rate.
 Loop-based decision-making ensures valid inputs (1 or 2).
 Tracks individual area statistics and overall game statistics.
 
+
+
+5.Summary of Hawkins Palace Arcade Program (Main-6.java)
+
+Overview
+This Java program simulates a visit to Hawkins Palace Arcade, where four friends (Dustin, Lucas, Mike, and Max) bring a certain number of quarters to play arcade games. The program calculates:
+
+How many games each friend can play based on their available quarters and preferred game cost.
+How much money is left after playing.
+The total revenue The Palace Arcade earns over different time periods (weekly, monthly, yearly).
+Key Functionalities
+User Input for Each Friend
+The user enters how many quarters each friend brings.
+The user enters the cost per game each friend prefers.
+Game Calculation for Each Friend
+Uses integer division (/) to calculate the total number of games played.
+Uses the modulus operator (%) to determine the remaining quarters after playing.
+Displaying Results for Each Friend
+Prints how many games each person played and how many quarters remain.
+Arcade Profit Calculations
+The user enters the average nightly revenue of the arcade.
+The program calculates:
+Weekly profit (6 nights per week).
+Monthly profit (4 weeks in a month).
+Yearly profit (52 weeks in a year).
+The profits are displayed in formatted currency values ($XX.XX).
+
+
