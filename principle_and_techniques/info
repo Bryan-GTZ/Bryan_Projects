@@ -1,1 +1,31 @@
 #This is for my highlights in principle and techniques
+
+
+
+1)Summary of Bash Script: Strava GPX File Organizer(team_assignment_week_3 comments.sh)
+
+Overview
+This Bash script is designed to organize, backup, and analyze GPX activity files from Strava. The script automates the process of:
+
+Backing up GPX files
+Renaming them systematically
+Sorting them into categorized activity folders (e.g., running, cycling, hiking)
+Extracting metadata (start time, number of track points)
+Generating a summary file sorted by activity data
+This ensures the structured storage and easy retrieval of fitness tracking data.
+
+2)Summary of the Python GPX Data Processing Code(Team17 week4 (1).ipynb)
+This Python script processes GPX (GPS Exchange Format) files from Strava to extract and analyze fitness tracking data. The script reads a GPX file, converts it into a structured DataFrame, extracts relevant metadata, computes time intervals, and determines the corresponding time zones.
+
+
+3)Summary of Python Script: Strava GPX Data Analysis (1team17week5.ipynb)
+Overview
+
+This Python script processes GPX files from Strava to analyze and extract key running or cycling performance metrics. It automates the following:
+
+Reading and parsing GPX files using gpxcsv.
+Converting GPS points into a GeoDataFrame for spatial analysis.
+Calculating cumulative distance between consecutive GPS points using the Haversine formula.
+Identifying the fastest intervals for specified distances (1 mile, 0.5 mile, 0.25 mile, and 100 meters).
+Formatting and displaying results in a readable format, including start and end times.
+Key
