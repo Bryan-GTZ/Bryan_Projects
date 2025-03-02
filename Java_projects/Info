@@ -1,0 +1,54 @@
+1. 1980s-Style Adventure Game (Adventure.java)
+
+Purpose: A text-based adventure game where the player explores a cave, collects gold, fights creatures, and navigates through different rooms.
+Key Functionalities:
+Room System: The game consists of multiple rooms, each implemented as a function. Players navigate using direction commands (N, S, E, W).
+Combat Mechanics: Players encounter different creatures (Bunny, Grue, Troll), each dealing different damage.
+Treasure Collection: Randomized gold collection with different values.
+Health & Food System: Players can consume food (Candy, Steak, Potion) to restore health.
+Game Over Condition: The game ends when the player finds the exit, but there's a twist—the player falls back into the cave.
+Notable Features:
+Uses randomized events for treasure and combat encounters.
+Dynamic status updates inform the player about their health and gold.
+Navigation restrictions prevent moving into walls.
+
+
+
+2. ASCII Image Editor (Homework5_Starter.java)
+
+Purpose: A Java program that allows users to edit a 10x20 ASCII image using different commands.
+Key Functionalities:
+Insert a Character: Place a character at a specific location.
+Insert a Character Range: Fill a section of the grid with a character.
+Insert a Character Block: Fill a rectangular block with a character.
+Remove a Character: Delete a specific character.
+Remove a Character Range/Block: Clear multiple characters in a specific region.
+Remove All Characters: Reset the image.
+Display Image: Prints the ASCII grid with borders.
+Notable Features:
+Uses 2D arrays to store and modify the ASCII grid.
+Error handling for user input ensures valid commands.
+Menu system for selecting operations.
+
+
+
+
+3. Pokémon Trainer Simulation (Homework6_starter.java)
+
+Purpose: A turn-based Pokémon simulation where a trainer encounters wild Pokémon, collects items, and battles.
+Key Functionalities:
+Read Pokémon List: Loads 25 Pokémon names from a file.
+Trainer Stats: Allows creation of a trainer with name, Pokémon, and inventory.
+Random Wild Encounters: Generates wild Pokémon and random items (Poke Ball, Ultra Ball, Revive).
+Battles & Capturing Pokémon:
+Players battle wild Pokémon with their own team.
+If a Pokémon faints, the player can use a Revive or remove it.
+If they win, they have the option to catch the Pokémon.
+Game Loop: Allows continuous play until all Pokémon faint.
+Data Persistence: Saves the trainer's progress to a text file.
+Notable Features:
+Turn-based battle system with random outcomes.
+Inventory system for collecting and using items.
+Pokémon capturing mechanics based on item availability.
+
+
