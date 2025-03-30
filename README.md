@@ -7,6 +7,7 @@ This repository is a curated collection of assignments and projects that I have 
 - **Pyomo-Based Optimization Models:** Developing mathematical models for optimization problems using the Pyomo library.
 - **Strava GPX Data Processing:** Parsing and analyzing GPX files from Strava to extract insights on physical activities.
 - **Bash Scripting for Automation:** Creating scripts to automate routine tasks and enhance workflow efficiency.
+- **Tableau:** Creating vizualizations and dashboards that are easy for the viewer to interpret  
 
 ## Repository Structure
 
@@ -16,6 +17,7 @@ The repository is organized into the following directories:
 - `Java_projects`: A collection of miscellaneous Java projects demonstrating various concepts and applications.
 - `OptimizationProblems`: Includes projects focused on solving optimization problems using different methodologies.
 - `principle_and_techniques`: Features assignments and projects related to fundamental principles and techniques in data science and machine learning.
+- `Tableau Work`: A collection of Vizualizations and Dashboards demonstrating various concepts and applications.
 
 ## Getting Started
 
